@@ -8,9 +8,25 @@ const app = express();
 app.use(bodyParser.urlencoded({extended:true}));
 app.use(bodyParser.json());
 
+// mongoose
+mongoose.connect('mongodb://localhost/1955_db');
+
+var NameSchema = new mongoose.Schema ({
+    name: String
+}, {timestamps: true})
+
+mongoose.model('Name', NameSchema)
+
+var Name = mongoose.model('Name');
 
 app.get('/', (req, res)=>{
-    res.send("I'm Alive");
+    Name.find({},(err, data)=>{
+        if(err)console.log(err)
+        else {
+            res.json(data);
+        }
+    } )
+    
 })
 
 app.listen('8000', (req, res)=>{
