@@ -29,6 +29,29 @@ app.get('/', (req, res)=>{
     
 })
 
+app.get('/new/:name/', (req, res)=>{
+    Name.create({name:req.params.name}, (err, data)=>{
+        console.log(data)
+        res.redirect('/')
+    })
+})
+
+app.get('/:name', (req, res)=>{
+    Name.findOne({name: req.params.name}, (err, data)=>{
+        if (err) console.log(err)
+        else {
+            res.json(data)
+        }
+    })
+})
+
+app.get('/delete/:name', (req, res)=>{
+    Name.deleteOne({name:req.params.name}, (err, data)=>{
+        console.log(data)
+        res.redirect('/')
+    })
+})
+
 app.listen('8000', (req, res)=>{
     console.log('running on port 8000')
 })
